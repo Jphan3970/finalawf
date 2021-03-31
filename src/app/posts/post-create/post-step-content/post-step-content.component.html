@@ -1,0 +1,35 @@
+<form [formGroup]="editStepContentForm">
+
+<mat-card *ngFor="let step of recipeStep">
+  <mat-card-title>
+    Step {{step.stepNo}}
+  </mat-card-title>
+  <mat-card-content *ngIf="!isEdditing">
+    {{step.content}}
+  </mat-card-content>
+  <mat-card-content *ngIf="isEdditing">
+    <textarea formControlName="content" matInput value="{{step.content}}" focus></textarea>
+  </mat-card-content>
+  <mat-card-actions>
+    <button (click)="onRemoveStep(step)" mat-button>Remove</button>
+    <button *ngIf="!isSaving" (click)="onEditStep()" mat-button>Edit</button>
+    <button *ngIf="isSaving" (click)="onSaveStep(step.stepNo, editStepContentForm.value)" mat-button>Save</button>
+  </mat-card-actions>
+</mat-card>
+</form>
+
+
+<form [formGroup]="stepContentForm">
+  <mat-form-field>
+    <mat-card-title>
+      Next Step
+    </mat-card-title>
+    <mat-card-content>
+      <textarea formControlName="content" matInput></textarea>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="onAddStepButtonClick(stepContentForm.value)" color="primary">Add Step</button>
+    </mat-card-actions>
+
+  </mat-form-field>
+</form>
