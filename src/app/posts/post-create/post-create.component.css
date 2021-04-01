@@ -22,3 +22,21 @@ input[type="file"] {
 .post-step-content{
   width: 100%;
 }
+
+.post-step-content, .post-ingredient{
+  background-color: aliceblue;
+  border-radius: 10px;
+}
+.post-step-content__title, .post-ingredient__title{
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.post-step-content mat-card{
+  margin: 10px !important;
+}
+
+.post-ingredient{
+  padding: 20px 0px;
+}

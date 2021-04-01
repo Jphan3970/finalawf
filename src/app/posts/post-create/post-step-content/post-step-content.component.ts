@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { RecipeStep } from '../recipeSteps.model';
 
@@ -21,7 +21,7 @@ export class PostStepContentComponent implements OnInit {
     content: new FormControl('')
   })
 
-  recipeStep : Array<RecipeStep> = [];
+  @Input() recipeStep:  Array<RecipeStep> = [];
   @Output() recipeStepFromChild: EventEmitter<Array<RecipeStep>> = new EventEmitter()
 
 

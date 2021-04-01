@@ -43,6 +43,10 @@ export class PostListComponent implements OnInit, OnDestroy {
     return JSON.parse(ingredients)
   }
 
+  parseStepContent(stepContent){
+    return JSON.parse(stepContent)
+  }
+
   ngOnInit() {
     this.isLoading = true;
     this.userId = this.authService.getUserId();

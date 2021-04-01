@@ -7,7 +7,7 @@ import { PostCreateComponent } from "./post-create/post-create.component";
 import { PostListComponent } from "./post-list/post-list.component";
 import { AngularMaterialModule } from "../angular-material.module";
 import { PostIngredientComponent } from "./post-create/post-ingredient/post-ingredient.component";
-import { MatTableModule } from '@angular/material'
+import { MatDividerModule, MatTableModule } from '@angular/material'
 import { PostStepContentComponent } from "./post-create/post-step-content/post-step-content.component";
 
 @NgModule({
@@ -18,7 +18,8 @@ import { PostStepContentComponent } from "./post-create/post-step-content/post-s
     AngularMaterialModule,
     RouterModule,
     MatTableModule,
-    FormsModule
+    FormsModule,
+    MatDividerModule
   ],
   exports:[ MatTableModule ]
 })

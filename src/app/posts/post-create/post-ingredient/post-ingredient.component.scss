@@ -1,3 +1,22 @@
 mat-form-field {
   margin-right: 12px;
 }
+
+.ingredient-display__title{
+  padding-right: 20px;
+}
+.ingredient-display, .ingredient-display__form{
+  margin: 10px;
+}
+
+
+.ingredient-display__form__button {
+  width: 100%;
+}
+
+.ingredient-display__form__input{
+  width: 43%;
+}
+.ingredient-display__form__input__title{
+  color: #3f51b5;
+}

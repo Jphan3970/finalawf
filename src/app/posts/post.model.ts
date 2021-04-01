@@ -1,8 +1,8 @@
 export interface Post {
   id: string;
   title: string;
-  content: string;
   ingredients: string;
+  stepContent: string;
   imagePath: string;
   creator: string;
 }

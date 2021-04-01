@@ -28,8 +28,8 @@ export class PostsService {
             posts: postData.posts.map(post => {
               return {
                 title: post.title,
-                content: post.content,
                 ingredients: post.ingredients,
+                stepContent: post.stepContent,
                 id: post._id,
                 imagePath: post.imagePath,
                 creator: post.creator
@@ -56,19 +56,20 @@ export class PostsService {
     return this.http.get<{
       _id: string;
       title: string;
-      content: string;
       ingredients: string;
+      stepContent: string;
       imagePath: string;
       creator: string;
     }>(BACKEND_URL + id);
   }
 
-  addPost(title: string, content: string, image: File, ingredients: string) {
+  addPost(title: string, image: File, ingredients: string, stepContent: string) {
     const postData = new FormData();
     postData.append("title", title);
-    postData.append("content", content);
     postData.append("image", image, title);
     postData.append("ingredients", ingredients);
+    postData.append("stepContent", stepContent);
+
     this.http
       .post<{ message: string; post: Post }>(
         BACKEND_URL,
@@ -79,21 +80,21 @@ export class PostsService {
       });
   }
 
-  updatePost(id: string, title: string, content: string, ingredients: string, image: File | string) {
+  updatePost(id: string, title: string, ingredients: string,stepContent: string, image: File | string) {
     let postData: Post | FormData;
     if (typeof image === "object") {
       postData = new FormData();
       postData.append("id", id);
       postData.append("title", title);
-      postData.append("content", content);
       postData.append("ingredients",ingredients)
+      postData.append("stepContent",stepContent)
       postData.append("image", image, title);
     } else {
       postData = {
         id: id,
         title: title,
-        content: content,
         ingredients: ingredients,
+        stepContent: stepContent,
         imagePath: image,
         creator: null
       };

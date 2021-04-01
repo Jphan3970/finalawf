@@ -28,6 +28,7 @@ export class PostCreateComponent implements OnInit, OnDestroy {
   isAddIngredients: boolean  = false;
   isAddingStep:boolean = false;
   ingredientFromParent: Array<Ingredient> = [];
+  stepContentFromParent: Array<RecipeStep> = [];
 
   constructor(
     public postsService: PostsService,
@@ -49,7 +50,6 @@ export class PostCreateComponent implements OnInit, OnDestroy {
       title: new FormControl(null, {
         validators: [Validators.required, Validators.minLength(3)]
       }),
-      content: new FormControl(null, { validators: [Validators.required] }),
       image: new FormControl(null, {
         validators: [Validators.required],
         asyncValidators: [mimeType]
@@ -65,18 +65,19 @@ export class PostCreateComponent implements OnInit, OnDestroy {
           this.post = {
             id: postData._id,
             title: postData.title,
-            content: postData.content,
             ingredients: postData.ingredients,
+            stepContent: postData.stepContent,
             imagePath: postData.imagePath,
             creator: postData.creator
           };
           this.form.setValue({
             title: this.post.title,
-            content: this.post.content,
             image: this.post.imagePath
           });
           this.imagePreview = this.post.imagePath
           this.ingredientFromParent = JSON.parse(this.post.ingredients)
+          this.stepContentFromParent = JSON.parse(this.post.stepContent)
+          this.isAddingStep = true;
           this.isAddIngredients = true;
         });
       } else {
@@ -109,16 +110,16 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     if (this.mode === "create") {
       this.postsService.addPost(
         this.form.value.title,
-        this.form.value.content,
         this.form.value.image,
-        JSON.stringify(this.ingredientFromChild)
+        JSON.stringify(this.ingredientFromChild),
+        JSON.stringify(this.stepContent)
       );
     } else {
       this.postsService.updatePost(
         this.postId,
         this.form.value.title,
-        this.form.value.content,
         JSON.stringify(this.ingredientFromChild),
+        JSON.stringify(this.stepContent),
         this.form.value.image
       );
     }
@@ -136,8 +137,8 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     // let something = JSON.stringify(this.ingredientFromChild)
   }
 
-  stepContent: Array<Ingredient>
-  onStepAddedFromChild(stepContentFromChild: Array<Ingredient>){
+  stepContent: Array<RecipeStep>
+  onStepAddedFromChild(stepContentFromChild: Array<RecipeStep>){
     this.stepContent = stepContentFromChild;
     // let something = JSON.stringify(this.ingredientFromChild)
   }
