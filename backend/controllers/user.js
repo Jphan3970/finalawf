@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
 const User = require("../models/user");
+const axios = require('axios').default;
 
 exports.createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then(hash => {
@@ -16,6 +16,17 @@ exports.createUser = (req, res, next) => {
           message: "User created!",
           result: result
         });
+        axios
+        .post('https://76a3fobddk.execute-api.us-east-1.amazonaws.com/v1', {
+          'email': req.body.email
+        })
+        .then(res => {
+          console.log(`statusCode: ${res.statusCode}`)
+          console.log(res)
+        })
+        .catch(error => {
+          console.error(error)
+        })
       })
       .catch(err => {
         res.status(500).json({

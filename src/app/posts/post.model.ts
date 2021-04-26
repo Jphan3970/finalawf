@@ -5,4 +5,5 @@ export interface Post {
   stepContent: string;
   imagePath: string;
   creator: string;
+  isItPrivate: string;
 }

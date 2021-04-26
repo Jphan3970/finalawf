@@ -2,3 +2,13 @@ main {
   width: 80%;
   margin: 1rem auto;
 }
+
+
+@media only screen and (max-width: 550px) {
+  .main__content{
+     width: 93%;
+  }
+}
+
+
+

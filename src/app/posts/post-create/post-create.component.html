@@ -35,6 +35,13 @@
       <app-post-ingredient [ingredientAdded] = "ingredientFromParent"  (ingredientAddedFromChild)="onIngredientAddedFromChild($event)" *ngIf="isAddIngredients"></app-post-ingredient>
     </div>
     <br>
+    <mat-checkbox [checked]="isItPrivate!='false'" color="primary" (change)="isItPrivateHandler($event)">
+      Make this post private
+    </mat-checkbox>
+    <br>
+
+<br>
+
     <button mat-raised-button color="accent" (click) = "onSavePost()">Save Post</button>
   </form>
 </mat-card>

@@ -23,6 +23,7 @@ mongoose
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// this should be changed to images only when deploy
 app.use("/images", express.static(path.join("backend/images")));
 
 app.use((req, res, next) => {

@@ -6,6 +6,7 @@ import { Post } from "../post.model";
 import { PostsService } from "../posts.service";
 import { AuthService } from "../../auth/auth.service";
 import { Ingredient } from './../post-create/post.model';
+import { Router } from "@angular/router";
 
 
 
@@ -21,6 +22,8 @@ export class PostListComponent implements OnInit, OnDestroy {
   //   { title: "Third Post", content: "This is the third post's content" }
   // ];
   posts: Post[] = [];
+  postsFromOthers: Post[] = [];
+
   ingredient: Ingredient[] = [];
   isLoading = false;
   totalPosts = 0;
@@ -36,7 +39,8 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   constructor(
     public postsService: PostsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   parseIngredient(ingredients){
@@ -51,13 +55,13 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.userId = this.authService.getUserId();
     this.postsService.getPosts(this.postsPerPage, this.currentPage, this.userId);
-    console.log("ccc "+this.userId)
     this.postsSub = this.postsService
       .getPostUpdateListener()
-      .subscribe((postData: { posts: Post[]; postCount: number }) => {
+      .subscribe((postData: { posts: Post[]; postCount: number; postsFromOthers: Post[] }) => {
         this.isLoading = false;
         this.totalPosts = postData.postCount;
         this.posts = postData.posts;
+        this.postsFromOthers = postData.postsFromOthers
       });
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authStatusSub = this.authService
@@ -91,5 +95,21 @@ export class PostListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.postsSub.unsubscribe();
     this.authStatusSub.unsubscribe();
+  }
+
+  panelClick(id){
+
+    let n: ReturnType<typeof setTimeout>;
+    n = setTimeout(function(){
+      let elem: HTMLElement = document.getElementById('panel_'+id+'_image');
+      let headerElem : HTMLElement = document.getElementById('mat-expansion-panel-header-'+id)
+      if(headerElem.classList.contains('mat-expanded')){
+        elem.style.display = 'none'
+      }
+      else{
+        elem.style.display = 'block'
+      }
+    }, 600);
+
   }
 }

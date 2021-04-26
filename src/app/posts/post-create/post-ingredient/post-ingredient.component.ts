@@ -29,6 +29,7 @@ export class PostIngredientComponent implements OnInit {
   addMoreIngredient(ingredientForm){
     this.ingredientAdded.push({name: ingredientForm.name, quantity: ingredientForm.quantity})
     this.ingredientAddedFromChild.emit(this.ingredientAdded);
+    this.ingredientForm.reset()
 
   }
   removeAnIngredient(ingredient){

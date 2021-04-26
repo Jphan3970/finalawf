@@ -11,20 +11,23 @@ import { ErrorInterceptor } from "./error-interceptor";
 import { ErrorComponent } from "./error/error.component";
 import { AngularMaterialModule } from "./angular-material.module";
 import { PostsModule } from "./posts/posts.module";
+import { PostSearchComponent } from './posts/post-search/post-search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    ErrorComponent
+    ErrorComponent,
+    PostSearchComponent
   ],
   imports: [
-    BrowserModule,
+BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AngularMaterialModule,
     PostsModule,
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

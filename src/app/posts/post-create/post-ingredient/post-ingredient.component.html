@@ -11,12 +11,12 @@
   <form [formGroup]="ingredientForm" class="ingredient-display__form">
     <mat-form-field class="ingredient-display__form__input">
       <mat-label class="ingredient-display__form__input__label">Name</mat-label>
-      <input  formControlName="name" matInput (cdkAutofill)="firstNameAutofilled = $event.isAutofilled">
+      <input  formControlName="name" matInput (cdkAutofill)="nameAutofilled = $event.isAutofilled">
       <mat-hint *ngIf="nameAutofilled">Autofilled!</mat-hint>
     </mat-form-field>
     <mat-form-field class="ingredient-display__form__input">
       <mat-label class="ingredient-display__form__input__label">Quantity</mat-label>
-      <input  formControlName="quantity" matInput (cdkAutofill)="lastNameAutofilled = $event.isAutofilled">
+      <input  formControlName="quantity" matInput (cdkAutofill)="quantityAutofilled = $event.isAutofilled">
       <mat-hint *ngIf="quantityAutofilled">Autofilled!</mat-hint>
     </mat-form-field>
     <button class="ingredient-display__form__button" mat-stroked-button color="primary" (click) = "addMoreIngredient(ingredientForm.value)">Add this ingredient</button>

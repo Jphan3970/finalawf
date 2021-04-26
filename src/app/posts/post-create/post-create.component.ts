@@ -9,6 +9,7 @@ import { mimeType } from "./mime-type.validator";
 import { AuthService } from "../../auth/auth.service";
 import { Ingredient } from "./post.model";
 import { RecipeStep } from "./recipeSteps.model";
+import { MatCheckboxChange } from "@angular/material";
 
 @Component({
   selector: "app-post-create",
@@ -29,6 +30,7 @@ export class PostCreateComponent implements OnInit, OnDestroy {
   isAddingStep:boolean = false;
   ingredientFromParent: Array<Ingredient> = [];
   stepContentFromParent: Array<RecipeStep> = [];
+  isItPrivate: string = "true";
 
   constructor(
     public postsService: PostsService,
@@ -38,6 +40,11 @@ export class PostCreateComponent implements OnInit, OnDestroy {
 
   onAddSteps(){
     this.isAddingStep = true;
+  }
+
+
+  isItPrivateHandler(event : MatCheckboxChange){
+    this.isItPrivate = event.checked.toString()
   }
 
   ngOnInit() {
@@ -68,7 +75,8 @@ export class PostCreateComponent implements OnInit, OnDestroy {
             ingredients: postData.ingredients,
             stepContent: postData.stepContent,
             imagePath: postData.imagePath,
-            creator: postData.creator
+            creator: postData.creator,
+            isItPrivate: postData.isItPrivate
           };
           this.form.setValue({
             title: this.post.title,
@@ -106,22 +114,45 @@ export class PostCreateComponent implements OnInit, OnDestroy {
     if (this.form.invalid) {
       return;
     }
+
+    if(this.ingredientFromParent == undefined || this.stepContentFromParent == undefined){
+      alert("A recipe should have ingredient and some step content")
+      return;
+    }
     this.isLoading = true;
     if (this.mode === "create") {
-      this.postsService.addPost(
-        this.form.value.title,
-        this.form.value.image,
-        JSON.stringify(this.ingredientFromChild),
-        JSON.stringify(this.stepContent)
-      );
+      if(this.ingredientFromChild == undefined || this.stepContent == undefined){
+        alert("A recipe should have ingredient and some step content")
+        this.isLoading = false
+        return;
+      }
+      else{
+        this.postsService.addPost(
+          this.form.value.title,
+          this.form.value.image,
+          JSON.stringify(this.ingredientFromChild),
+          JSON.stringify(this.stepContent),
+          this.isItPrivate
+        );
+      }
+
     } else {
+      if(this.ingredientFromParent == undefined || this.stepContentFromParent == undefined){
+        alert("A recipe should have ingredient and some step content")
+        this.isLoading = false
+        return;
+      }
+      else{
       this.postsService.updatePost(
         this.postId,
         this.form.value.title,
         JSON.stringify(this.ingredientFromChild),
         JSON.stringify(this.stepContent),
-        this.form.value.image
+        this.form.value.image,
+        this.isItPrivate
       );
+      }
+
     }
     this.form.reset();
   }

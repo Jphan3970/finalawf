@@ -38,6 +38,7 @@ export class AuthService {
     const authData: AuthData = { email: email, password: password };
     this.http.post(BACKEND_URL + "/signup", authData).subscribe(
       () => {
+        // this.sendEmailNotification(email)
         this.login(email,password)
         // this.router.navigate(["/"]);
       },
@@ -45,6 +46,15 @@ export class AuthService {
         this.authStatusListener.next(false);
       }
     );
+  }
+
+  sendEmailNotification(email:string){
+    const body = { "\"email\"": email };
+    this.http.post("https://76a3fobddk.execute-api.us-east-1.amazonaws.com/v1",body)
+    .subscribe(response=>{
+    },error =>{
+      console.log("Cannot send email notification")
+    })
   }
 
   login(email: string, password: string) {
@@ -103,6 +113,7 @@ export class AuthService {
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
     this.router.navigate(["/"]);
+    location.reload()
   }
 
   private setAuthTimer(duration: number) {

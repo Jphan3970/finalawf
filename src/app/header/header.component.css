@@ -16,3 +16,16 @@ ul {
 .spacer {
   flex: 1 1 auto;
 }
+
+.search_mobile{
+  display: none;
+}
+
+@media only screen and (max-width: 800px) {
+  .search_mobile{
+    display: block;
+  }
+  .search_desktop{
+    display: none;
+  }
+}

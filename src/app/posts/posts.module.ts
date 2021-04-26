@@ -9,17 +9,19 @@ import { AngularMaterialModule } from "../angular-material.module";
 import { PostIngredientComponent } from "./post-create/post-ingredient/post-ingredient.component";
 import { MatDividerModule, MatTableModule } from '@angular/material'
 import { PostStepContentComponent } from "./post-create/post-step-content/post-step-content.component";
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [PostCreateComponent, PostListComponent, PostIngredientComponent,PostStepContentComponent],
   imports: [
-    CommonModule,
+  CommonModule,
     ReactiveFormsModule,
     AngularMaterialModule,
     RouterModule,
     MatTableModule,
     FormsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatCheckboxModule
   ],
   exports:[ MatTableModule ]
 })

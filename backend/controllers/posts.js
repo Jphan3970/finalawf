@@ -7,7 +7,8 @@ exports.createPost = (req, res, next) => {
     imagePath: url + "/images/" + req.file.filename,
     creator: req.userData.userId,
     ingredients: req.body.ingredients,
-    stepContent: req.body.stepContent
+    stepContent: req.body.stepContent,
+    isItPrivate: req.body.isItPrivate
   });
   post
     .save()
@@ -40,6 +41,7 @@ exports.updatePost = (req, res, next) => {
     stepContent: req.body.stepContent,
     imagePath: imagePath,
     creator: req.userData.userId,
+    isItPrivate: req.body.isItPrivate
   });
   Post.updateOne({ _id: req.params.id, creator: req.userData.userId }, post)
     .then((result) => {
@@ -71,7 +73,7 @@ exports.getPosts = (req, res, next) => {
       let tempFetchPosts = fetchedPosts.filter(post=>post.creator.toString() == req.params.id)
       res.status(200).json({
         message: "Posts fetched successfully!",
-        posts: tempFetchPosts,
+        posts: fetchedPosts,
         maxPosts: count,
       });
     })
@@ -80,6 +82,69 @@ exports.getPosts = (req, res, next) => {
         message: "Fetching posts failed!",
       });
     });
+};
+
+
+exports.getPostsByKeyWord = (req, res, next) => {
+  const keyword = req.params.id.split("-")[0];
+  const currentId = req.params.id.split("-")[1];
+  const query = { $text: { $search: keyword } };
+
+
+
+  let postQuery = Post.find(query)
+  if(keyword == ""){
+    postQuery = Post.find();
+  }
+  let irsfetchedPosts;
+
+  postQuery
+    .then((documents) => {
+      fetchedPosts = documents;
+      console.log(fetchedPosts)
+      return Post.count();
+    })
+    .then((count) => {
+      let tempFetchPosts
+      if(fetchedPosts == undefined || fetchedPosts.length == 0){
+        postQuery = Post.find();
+        postQuery
+        .then((documents) => {
+          fetchedPosts = documents;
+          console.log(fetchedPosts)
+          return Post.count();
+        })
+        .then((count) => {
+          res.status(200).json({
+            message: "Posts fetched successfully!",
+            posts: fetchedPosts,
+            maxPosts: count,
+          });
+        })
+        .catch((error) => {
+          res.status(500).json({
+            message: "Fetching posts failed!",
+          });
+        });
+      }
+      else{
+        res.status(200).json({
+          message: "Posts fetched successfully!",
+          posts: fetchedPosts,
+          maxPosts: count,
+        });
+      }
+
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "Fetching posts failed!",
+      });
+    });
+
+
+
+
 };
 
 exports.getPost = (req, res, next) => {

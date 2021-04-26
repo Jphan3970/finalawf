@@ -13,6 +13,7 @@ const storage = multer.diskStorage({
     if (isValid) {
       error = null;
     }
+    // when deploy this should be images only
     cb(error, "backend/images");
   },
   filename: (req, file, cb) => {
